@@ -3,12 +3,12 @@ package domain
 import "demo/dto"
 
 type Task struct {
-	Id   string `db:"task_id"`
-	Name string `db:"task_name"`
+	Id   string `db:"_id"`
+	Name string `db:"_name"`
 }
 
-func (t Task) TaskDto() dto.TaskResponse {
-	return dto.TaskResponse{
+func (t Task) TaskDto() dto.Task {
+	return dto.Task{
 		Id:   t.Id,
 		Name: t.Name,
 	}
@@ -16,5 +16,5 @@ func (t Task) TaskDto() dto.TaskResponse {
 
 type TaskRepository interface {
 	FindAll() ([]Task, *error)
-	ById(id string) (*Task, *error)
+	// ById(id string) (*Task, *error)
 }
