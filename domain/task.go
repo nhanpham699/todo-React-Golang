@@ -1,14 +1,18 @@
 package domain
 
-import "demo/dto"
+import (
+	"demo/dto"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type Task struct {
-	Id   string `db:"_id"`
-	Name string `db:"_name"`
+	Id   primitive.ObjectID `json:"_id" bson:"_id,omitempty" validate:"required"`
+	Name string             `json:"name" bson:"name" validate:"required"`
 }
 
-func (t Task) TaskDto() dto.Task {
-	return dto.Task{
+func (t Task) TaskDto() dto.TaskReponse {
+	return dto.TaskReponse{
 		Id:   t.Id,
 		Name: t.Name,
 	}

@@ -16,8 +16,12 @@ func main() {
 	router := mux.NewRouter()
 	address := "localhost"
 	port := "8080"
-	taskRepositoryDb := domain.NewTaskRepositoryDb(driver.Mongo.Client)
-	th := handler.TaskHandlers{service: service.NewTaskService(taskRepositoryDb)}
+	taskRepositoryDb := domain.NewTaskRepositoryDb(driver.ConnectMongoDB().Client)
+	th := handler.TaskHandlers{service.NewTaskService(taskRepositoryDb)}
+	router.
+		HandleFunc("/tasks", th.GetAllTasks).
+		Methods(http.MethodGet).
+		Name("GetAllTasks")
 
 	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%s", address, port), router))
 

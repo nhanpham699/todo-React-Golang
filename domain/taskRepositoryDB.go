@@ -2,7 +2,6 @@ package domain
 
 import (
 	"context"
-	"demo/dto"
 	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -16,13 +15,13 @@ type TaskRepositoryDb struct {
 	client *mongo.Client
 }
 
-func (d TaskRepositoryDb) FindAll() ([]dto.Task, *error) {
+func (d TaskRepositoryDb) FindAll() ([]Task, *error) {
 	db := d.client.Database(dbName).Collection(docCollection)
-	cur, err := db.Find(context.TODO(), bson.D{{}})
+	cur, err := db.Find(context.TODO(), bson.M{})
 	if err != nil {
 		log.Fatal(err)
 	}
-	var tasks []dto.Task
+	var tasks []Task
 	if err = cur.All(context.TODO(), &tasks); err != nil {
 		log.Fatal(err)
 	}
